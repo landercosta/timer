@@ -3,7 +3,7 @@ const config = {
   progressivo: true,
   tipoDefinido: false,
   foco: false,
-  lazer: false,
+  lazer: false
 }
 
 let temporizador;
