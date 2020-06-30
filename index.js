@@ -20,6 +20,7 @@ const btnParar = document.getElementById('btn-parar');
 const inputHora = document.getElementById('altera-horas');
 const inputMinutos = document.getElementById('altera-minutos');
 const inputSegundos = document.getElementById('altera-segundos');
+const checkNegativo = document.getElementById('check-negativo');
 const btnAltera = document.getElementById('btn-altera');
 
 btnFoco.addEventListener('click', () => {
@@ -96,10 +97,13 @@ btnParar.addEventListener('click', () => {
 
 btnAltera.addEventListener('click', () => {
   let totalEmSegundos = 0;
-  totalEmSegundos += parseInt(inputHora.value) * 3600;
-  totalEmSegundos += parseInt(inputMinutos.value) * 60;
-  totalEmSegundos += parseInt(inputSegundos.value);
-  config.segundos = totalEmSegundos
+  let horas = parseInt(inputHora.value) * 3600;
+  let minutos = parseInt(inputMinutos.value) * 60;
+  let segundos = parseInt(inputSegundos.value);
+  totalEmSegundos += isNaN(horas) ? 0 : horas;
+  totalEmSegundos += isNaN(minutos) ? 0 : minutos;
+  totalEmSegundos += isNaN(segundos) ? 0 : segundos;
+  config.segundos = checkNegativo.checked ? -totalEmSegundos : totalEmSegundos;  
   displayTempo.innerHTML = segundosEmFormaDeRelogio();
 });
 
