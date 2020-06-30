@@ -8,7 +8,6 @@ const config = {
 
 let temporizador;
 
-// const displayTitulo = document.getElementById('display-titulo');
 const displayTempo = document.getElementById('display-tempo');
 const btnFoco = document.getElementById('btn-foco');
 const btnTarefas = document.getElementById('btn-tarefas');

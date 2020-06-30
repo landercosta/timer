@@ -3,7 +3,7 @@ body {
   --cor-botoes-ativos: #1A73C7;
   --cor-botoes-fonte: #fff;
   --cor-botao-selecionado: #FF6933;
-  --cor-display-fundo: #FF4500;
+  --cor-display-fundo: #FF6933;
   --cor-display-fonte: #fff;
   --cor-form-alterar-hora: #071F36;
   --cor-fontes: #fff;
@@ -11,11 +11,8 @@ body {
   background-color: var(--cor-fundo);
   color: var(--cor-fontes);
   font-family: 'Roboto', sans-serif;
+  padding: 1rem 0;
   text-align: center;
-}
-
-.app {
-  margin-top: 1rem;
 }
 
 .modo-linha {
