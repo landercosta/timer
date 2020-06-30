@@ -6,8 +6,10 @@ body {
   --cor-display-fundo: #FF4500;
   --cor-display-fonte: #fff;
   --cor-form-alterar-hora: #071F36;
+  --cor-fontes: #fff;
   --cor-fundo: #051524;
   background-color: var(--cor-fundo);
+  color: var(--cor-fontes);
   font-family: 'Roboto', sans-serif;
   text-align: center;
 }
