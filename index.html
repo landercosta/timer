@@ -1,27 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Definir Contador</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./main.css">
 </head>
 <body>
-  <button id="btn-foco">Foco</button>
-  <button id="btn-tarefas">Tarefas</button>
-  <button id="btn-descanso">Descanso</button>
-  <button id="btn-lazer">Lazer</button>
-  <h1 id="display-titulo">Tempo</h1>
-  <h2 id="display-tempo">00:00:00</h2>
-  <button id="btn-iniciar">Iniciar</button>
-  <button id="btn-parar">Parar</button>
-  <br><br>
-  <input id="altera-horas" type="text">
-  <input id="altera-minutos" type="text">
-  <input id="altera-segundos" type="text">
-  <label id="label-negativo" for="check-negativo">Negativo</label>
-  <input type="checkbox" name="check-negativo" id="check-negativo">
-  <button id="btn-altera">Alterar a hora</button>
+  <div class="app">
+    <section class="modo">
+      <div class="modo-linha">
+        <button id="btn-foco">Foco</button>
+        <button id="btn-tarefas">Tarefas</button>
+      </div>
+      <div class="modo-linha">
+        <button id="btn-descanso">Descanso</button>
+        <button id="btn-lazer">Lazer</button>
+      </div>
+    </section>
+    <section class="relogio">
+      <!-- <h1 id="display-titulo">Tempo</h1> -->
+      <h2 id="display-tempo">00:00:00</h2>
+      <div class="on-off">
+        <button id="btn-iniciar">Iniciar</button>
+        <button id="btn-parar">Parar</button>
+      </div>
+    </section>
+    <br><br>
+    <section class="alterar-conometro">
+      <div class="campo-altera-hora">
+        <label for="altera-horas">Horas</label>
+        <input id="altera-horas" type="text">
+      </div>
+      <div class="campo-altera-hora">
+        <label for="altera-minutos">Minutos</label>
+        <input id="altera-minutos" type="text">
+      </div>
+      <div class="campo-altera-hora">
+        <label for="altera-segundos">Segundos</label>
+        <input id="altera-segundos" type="text">
+      </div>
+      <div class="campo-altera-hora">
+        <label id="label-negativo" for="check-negativo">Negativo</label>
+        <span class="contem-check-negativo">
+          <input type="checkbox" name="check-negativo" id="check-negativo">
+        </span>
+      </div>
+        <button id="btn-altera">Alterar a hora</button>
+    </section>
+  </div>
 
   <script src="./index.js"></script>
 </body>

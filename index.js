@@ -8,7 +8,7 @@ const config = {
 
 let temporizador;
 
-const displayTitulo = document.getElementById('display-titulo');
+// const displayTitulo = document.getElementById('display-titulo');
 const displayTempo = document.getElementById('display-tempo');
 const btnFoco = document.getElementById('btn-foco');
 const btnTarefas = document.getElementById('btn-tarefas');
@@ -23,8 +23,7 @@ const inputSegundos = document.getElementById('altera-segundos');
 const checkNegativo = document.getElementById('check-negativo');
 const btnAltera = document.getElementById('btn-altera');
 
-btnFoco.addEventListener('click', () => {
-  displayTitulo.innerHTML = 'Foco';
+btnFoco.addEventListener('click', function() {
   config.progressivo = true;
   config.tipoDefinido = true;
   if(config.lazer){
@@ -33,10 +32,10 @@ btnFoco.addEventListener('click', () => {
     displayTempo.innerHTML = segundosEmFormaDeRelogio();
   }
   if(!config.foco) config.foco = true;
+  AplicaCorNoBotaoSelecionado(this);
 });
 
-btnTarefas.addEventListener('click', () => {
-  displayTitulo.innerHTML = 'Tarefas';
+btnTarefas.addEventListener('click', function() {
   config.progressivo = true;
   config.tipoDefinido = true;
   if(config.lazer){
@@ -45,10 +44,10 @@ btnTarefas.addEventListener('click', () => {
     displayTempo.innerHTML = segundosEmFormaDeRelogio();
   }
   if(config.foco) config.foco = false;
+  AplicaCorNoBotaoSelecionado(this);
 });
 
-btnDescanso.addEventListener('click', () => {
-  displayTitulo.innerHTML = 'Descanso';
+btnDescanso.addEventListener('click', function() {
   config.progressivo = false;
   config.tipoDefinido = true;
   if(config.lazer){
@@ -57,10 +56,10 @@ btnDescanso.addEventListener('click', () => {
     displayTempo.innerHTML = segundosEmFormaDeRelogio();
   }
   if(config.foco) config.foco = false;
+  AplicaCorNoBotaoSelecionado(this);
 });
 
-btnLazer.addEventListener('click', () => {
-  displayTitulo.innerHTML = 'Lazer';
+btnLazer.addEventListener('click', function() {
   config.progressivo = false;
   config.tipoDefinido = true;
   if(!config.lazer){
@@ -69,6 +68,7 @@ btnLazer.addEventListener('click', () => {
     displayTempo.innerHTML = segundosEmFormaDeRelogio();
   }
   if(config.foco) config.foco = false;
+  AplicaCorNoBotaoSelecionado(this);
 });
 
 btnIniciar.addEventListener('click', () => {
@@ -106,6 +106,14 @@ btnAltera.addEventListener('click', () => {
   config.segundos = checkNegativo.checked ? -totalEmSegundos : totalEmSegundos;  
   displayTempo.innerHTML = segundosEmFormaDeRelogio();
 });
+
+function AplicaCorNoBotaoSelecionado(btnSelecionado){
+  btnFoco.classList.remove('selecionado');
+  btnTarefas.classList.remove('selecionado');
+  btnDescanso.classList.remove('selecionado');
+  btnLazer.classList.remove('selecionado');
+  btnSelecionado.classList.add('selecionado');
+}
 
 function segundosEmFormaDeRelogio(){
   let segundos = config.segundos;
