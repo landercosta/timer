@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   --cor-botoes: #2688E3;
   --cor-botoes-ativos: #1A73C7;
@@ -10,7 +14,12 @@ body {
   --cor-fundo: #051524;
   background-color: var(--cor-fundo);
   color: var(--cor-fontes);
+  display: flex;
+    align-items: center;
+    justify-content: center;
   font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  margin: 0;
   padding: 1rem 0;
   text-align: center;
 }
