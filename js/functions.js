@@ -1,98 +1,3 @@
-// TODO: Refatorar código para funções puras
-
-const config = {
-  segundosAcumulados: 0,
-  progressivo: true,
-  tipoDefinido: false,
-  foco: false,
-  lazer: false
-}
-
-let temporizador;
-const urlParams = new URLSearchParams(window.location.search);
-
-const displayTempo = document.getElementById('display-tempo');
-const btnFoco = document.getElementById('btn-foco');
-const btnTarefas = document.getElementById('btn-tarefas');
-const btnDescanso = document.getElementById('btn-descanso');
-const btnLazer = document.getElementById('btn-lazer');
-const btnIniciar = document.getElementById('btn-iniciar');
-const btnParar = document.getElementById('btn-parar');
-
-const inputHora = document.getElementById('altera-horas');
-const inputMinutos = document.getElementById('altera-minutos');
-const inputSegundos = document.getElementById('altera-segundos');
-const checkNegativo = document.getElementById('check-negativo');
-const btnAltera = document.getElementById('btn-altera');
-
-adicionaEventListeners();
-recuperaInfoUrl();
-
-function adicionaEventListeners(){
-  btnFoco.addEventListener('click', function() {
-    configsFoco();
-    defineParametroUrl('foco');
-  });
-  
-  btnTarefas.addEventListener('click', function() {
-    configsTarefas();
-    defineParametroUrl('tarefas');
-  });
-  
-  btnDescanso.addEventListener('click', function() {
-    configsDescanso();
-    defineParametroUrl('descanso');
-  });
-  
-  btnLazer.addEventListener('click', function() {
-    configsLazer();
-    defineParametroUrl('lazer');
-  });
-  
-  btnIniciar.addEventListener('click', () => {
-    if(!config.tipoDefinido){
-      alert('Defina o tipo do contador antes de iniciar');
-      return;
-    }
-    if(temporizador){
-      return;
-    }
-    temporizador = setInterval(() => {
-      if(config.progressivo){
-        config.segundosAcumulados++;
-      } else {
-        config.segundosAcumulados--;
-      }
-      if(config.foco) config.segundosAcumulados++;
-      displayTempo.innerHTML = segundosEmFormaDeRelogio();
-    }, 1000);
-  });
-  
-  btnParar.addEventListener('click', () => {
-    clearInterval(temporizador);
-    temporizador = null;
-  });
-  
-  btnAltera.addEventListener('click', () => {
-    const horas = parseInt(inputHora.value) * 3600;
-    const minutos = parseInt(inputMinutos.value) * 60;
-    const segundos = parseInt(inputSegundos.value);
-
-    if(isNaN(horas) && isNaN(minutos) && isNaN(segundos)){
-      return;
-    }
-    
-    let totalEmSegundos = 0;
-    totalEmSegundos += isNaN(horas) ? 0 : horas;
-    totalEmSegundos += isNaN(minutos) ? 0 : minutos;
-    totalEmSegundos += isNaN(segundos) ? 0 : segundos;
-    // TODO: Se todos os campos estiverem vazios, não mudar nada
-    config.segundosAcumulados = checkNegativo.checked ? -totalEmSegundos : totalEmSegundos;  
-    displayTempo.innerHTML = segundosEmFormaDeRelogio();
-    defineParametroUrl(urlParams.get('modo'));
-  });
-}
-
 function AplicaCorNoBotaoSelecionado(btnSelecionado){
   btnFoco.classList.remove('selecionado');
   btnTarefas.classList.remove('selecionado');
@@ -194,6 +99,7 @@ function recuperaInfoUrl(){
   switch (url_modo) {
     case 'foco':
       config.segundosAcumulados = (tempoPassado * 2) + url_segundosAcumulados;
+      config.foco = true;
       configsFoco();
       break;
     case 'tarefas':
@@ -206,7 +112,7 @@ function recuperaInfoUrl(){
       break;
     case 'lazer':
       config.segundosAcumulados = -(tempoPassado * 2) + url_segundosAcumulados;
-      config.lazer = true; // TODO: Fazer com que a página não recarregue ao clicar nos botões
+      config.lazer = true;
       configsLazer();
       break;
   }
@@ -220,5 +126,6 @@ function defineParametroUrl(modo){
   urlParams.set('modo', modo);
   urlParams.set('horapress', Date.now());
   urlParams.set('acum', config.segundosAcumulados);
-  window.location.search = urlParams;
+  history.replaceState(null, '', `?${urlParams}`);
+  // window.location.search = urlParams;
 }
