@@ -115,6 +115,10 @@ function recuperaInfoUrl(){
       config.lazer = true;
       configsLazer();
       break;
+    case 'parado':
+      config.segundosAcumulados = url_segundosAcumulados;
+      displayTempo.innerHTML = segundosEmFormaDeRelogio();
+      return;
   }
 
   displayTempo.innerHTML = segundosEmFormaDeRelogio();

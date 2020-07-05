@@ -40,6 +40,7 @@ btnIniciar.addEventListener('click', () => {
 btnParar.addEventListener('click', () => {
   clearInterval(temporizador);
   temporizador = null;
+  defineParametroUrl('parado');
 });
 
 btnAltera.addEventListener('click', () => {
