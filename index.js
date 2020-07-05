@@ -31,30 +31,22 @@ recuperaInfoUrl();
 function adicionaEventListeners(){
   btnFoco.addEventListener('click', function() {
     configsFoco();
-    defineParametroUrl('modo', 'foco');
-    defineParametroUrl('horapress', Date.now());
-    defineParametroUrl('acum', config.segundosAcumulados);
+    defineParametroUrl('foco');
   });
   
   btnTarefas.addEventListener('click', function() {
     configsTarefas();
-    defineParametroUrl('modo', 'tarefas');
-    defineParametroUrl('horapress', Date.now());
-    defineParametroUrl('acum', config.segundosAcumulados);
+    defineParametroUrl('tarefas');
   });
   
   btnDescanso.addEventListener('click', function() {
     configsDescanso();
-    defineParametroUrl('modo', 'descanso');
-    defineParametroUrl('horapress', Date.now());
-    defineParametroUrl('acum', config.segundosAcumulados);
+    defineParametroUrl('descanso');
   });
   
   btnLazer.addEventListener('click', function() {
     configsLazer();
-    defineParametroUrl('modo', 'lazer');
-    defineParametroUrl('horapress', Date.now());
-    defineParametroUrl('acum', config.segundosAcumulados);
+    defineParametroUrl('lazer');
   });
   
   btnIniciar.addEventListener('click', () => {
@@ -82,15 +74,22 @@ function adicionaEventListeners(){
   });
   
   btnAltera.addEventListener('click', () => {
+    const horas = parseInt(inputHora.value) * 3600;
+    const minutos = parseInt(inputMinutos.value) * 60;
+    const segundos = parseInt(inputSegundos.value);
+
+    if(isNaN(horas) && isNaN(minutos) && isNaN(segundos)){
+      return;
+    }
+    
     let totalEmSegundos = 0;
-    let horas = parseInt(inputHora.value) * 3600;
-    let minutos = parseInt(inputMinutos.value) * 60;
-    let segundos = parseInt(inputSegundos.value);
     totalEmSegundos += isNaN(horas) ? 0 : horas;
     totalEmSegundos += isNaN(minutos) ? 0 : minutos;
     totalEmSegundos += isNaN(segundos) ? 0 : segundos;
+    // TODO: Se todos os campos estiverem vazios, não mudar nada
     config.segundosAcumulados = checkNegativo.checked ? -totalEmSegundos : totalEmSegundos;  
     displayTempo.innerHTML = segundosEmFormaDeRelogio();
+    defineParametroUrl(urlParams.get('modo'));
   });
 }
 
@@ -176,21 +175,17 @@ function configsLazer(){
   AplicaCorNoBotaoSelecionado(btnLazer);
 }
 
-function defineParametroUrl(parametro, valor){
-  urlParams.set(parametro, valor);
-  window.location.search = urlParams;
-}
-
 function recuperaInfoUrl(){
   const url_string = window.location.href;
   const url = new URL(url_string);
+
   const url_horaBotaoPressionado = url.searchParams.get("horapress");
   const url_modo = url.searchParams.get("modo");
   const url_segundosAcumulados = parseInt(url.searchParams.get("acum"));
-  if(!url_horaBotaoPressionado || !url_modo || !url_segundosAcumulados){
-    if(url_segundosAcumulados !== 0){
-      return;
-    }
+
+  const parametrosPreenchidos = (url_horaBotaoPressionado && url_modo && (url_segundosAcumulados || url_segundosAcumulados === 0));
+  if(!parametrosPreenchidos){
+    return;
   }
   
   const agora = new Date;
@@ -198,8 +193,7 @@ function recuperaInfoUrl(){
 
   switch (url_modo) {
     case 'foco':
-      tempoPassado = tempoPassado * 2;
-      config.segundosAcumulados = tempoPassado + url_segundosAcumulados;
+      config.segundosAcumulados = (tempoPassado * 2) + url_segundosAcumulados;
       configsFoco();
       break;
     case 'tarefas':
@@ -207,13 +201,11 @@ function recuperaInfoUrl(){
       configsTarefas();
       break;
     case 'descanso':
-      tempoPassado = tempoPassado * -1;
-      config.segundosAcumulados = tempoPassado + url_segundosAcumulados;
+      config.segundosAcumulados = -tempoPassado + url_segundosAcumulados;
       configsDescanso();
       break;
     case 'lazer':
-      tempoPassado = tempoPassado * -2;
-      config.segundosAcumulados = tempoPassado + url_segundosAcumulados;
+      config.segundosAcumulados = -(tempoPassado * 2) + url_segundosAcumulados;
       config.lazer = true; // TODO: Fazer com que a página não recarregue ao clicar nos botões
       configsLazer();
       break;
@@ -222,4 +214,11 @@ function recuperaInfoUrl(){
   displayTempo.innerHTML = segundosEmFormaDeRelogio();
   const click = new Event('click');
   btnIniciar.dispatchEvent(click);
+}
+
+function defineParametroUrl(modo){
+  urlParams.set('modo', modo);
+  urlParams.set('horapress', Date.now());
+  urlParams.set('acum', config.segundosAcumulados);
+  window.location.search = urlParams;
 }
