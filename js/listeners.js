@@ -35,6 +35,11 @@ btnIniciar.addEventListener('click', () => {
     if(config.foco) config.segundosAcumulados++;
     displayTempo.innerHTML = segundosEmFormaDeRelogio();
   }, 1000);
+
+  if(config.foco) defineParametroUrl('foco');
+  if(!config.foco && config.progressivo) defineParametroUrl('tarefas');
+  if(!config.lazer && !config.progressivo) defineParametroUrl('descanso');
+  if(config.lazer) defineParametroUrl('lazer');
 });
 
 btnParar.addEventListener('click', () => {
